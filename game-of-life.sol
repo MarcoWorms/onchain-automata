@@ -67,10 +67,10 @@ contract GameOfLife {
                 // Skip the current cell itself
                 if (i == 0 && j == 0) continue;
 
-                uint newX = xCoord + uint(i);
-                uint newY = yCoord + uint(j);
+                int newX = int(xCoord) + i;
+                int newY = int(yCoord) + j;
 
-                if (newX < width && newY < height && grid[newX][newY]) {
+                if (newX >= 0 && newY >= 0 && uint(newX) < width && uint(newY) < height && grid[uint(newX)][uint(newY)]) {
                     count++;
                 }
             }
