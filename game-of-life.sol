@@ -1,51 +1,53 @@
 pragma solidity ^0.8.0;
 
 contract GameOfLife {
-    uint public gridSize;
+    uint public rows;
+    uint public columns;
     bool[][] public grid;
     
-    event GridInitialized(uint gridSize);
-    event DotInserted(uint x, uint y);
+    event GridInitialized(uint rows, uint columns);
+    event CellActivated(uint row, uint column);
     event NextIterationCompleted(bool[][] newGrid);
 
-    constructor(uint _gridSize) {
-        require(_gridSize > 0, "Grid size must be greater than 0");
-        gridSize = _gridSize;
-        grid = new bool[][](gridSize);
-        for (uint i = 0; i < gridSize; i++) {
-            grid[i] = new bool[](gridSize);
+    constructor(uint _rows, uint _columns) {
+        require(_rows > 0 && _columns > 0, "Row and column sizes must be greater than 0");
+        rows = _rows;
+        columns = _columns;
+        grid = new bool[][](rows);
+        for (uint i = 0; i < rows; i++) {
+            grid[i] = new bool[](columns);
         }
-        emit GridInitialized(gridSize);
+        emit GridInitialized(rows, columns);
     }
 
-    function insertDot(uint x, uint y) public {
-        require(x < gridSize && y < gridSize, "Invalid coordinates");
-        grid[x][y] = true;
-        emit DotInserted(x, y);
+    function activateCell(uint row, uint column) public {
+        require(row < rows && column < columns, "Invalid coordinates");
+        grid[row][column] = true;
+        emit CellActivated(row, column);
     }
 
-    function insertDots(uint[] memory xs, uint[] memory ys) public {
-        require(xs.length == ys.length, "Coordinate arrays must have the same length");
+    function activateCells(uint[] memory rowCoords, uint[] memory colCoords) public {
+        require(rowCoords.length == colCoords.length, "Coordinate arrays must have the same length");
 
-        for (uint i = 0; i < xs.length; i++) {
-            insertDot(xs[i], ys[i]);
+        for (uint i = 0; i < rowCoords.length; i++) {
+            activateCell(rowCoords[i], colCoords[i]);
         }
     }
 
     function nextIteration() public {
-        bool[][] memory newGrid = new bool[][](gridSize);
-        for (uint i = 0; i < gridSize; i++) {
-            newGrid[i] = new bool[](gridSize);
+        bool[][] memory newGrid = new bool[][](rows);
+        for (uint i = 0; i < rows; i++) {
+            newGrid[i] = new bool[](columns);
         }
 
-        for (uint x = 0; x < gridSize; x++) {
-            for (uint y = 0; y < gridSize; y++) {
-                uint8 neighbors = countNeighbors(x, y);
+        for (uint row = 0; row < rows; row++) {
+            for (uint column = 0; column < columns; column++) {
+                uint8 neighbors = countNeighbors(row, column);
 
-                if (grid[x][y]) {
-                    newGrid[x][y] = neighbors == 2 || neighbors == 3;
+                if (grid[row][column]) {
+                    newGrid[row][column] = neighbors == 2 || neighbors == 3;
                 } else {
-                    newGrid[x][y] = neighbors == 3;
+                    newGrid[row][column] = neighbors == 3;
                 }
             }
         }
@@ -54,16 +56,16 @@ contract GameOfLife {
         emit NextIterationCompleted(grid);
     }
 
-    function countNeighbors(uint x, uint y) private view returns (uint8) {
+    function countNeighbors(uint row, uint column) private view returns (uint8) {
         uint8 count = 0;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0) continue;
 
-                uint newX = x + uint(i);
-                uint newY = y + uint(j);
+                uint newRow = row + uint(i);
+                uint newColumn = column + uint(j);
 
-                if (newX < gridSize && newY < gridSize && grid[newX][newY]) {
+                if (newRow < rows && newColumn < columns && grid[newRow][newColumn]) {
                     count++;
                 }
             }
