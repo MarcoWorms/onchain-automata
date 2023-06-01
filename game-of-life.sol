@@ -7,20 +7,20 @@ contract GameOfLife {
     bool[][] public grid;
     
     // Events to be emitted when the grid is initialized, a cell is activated, and an iteration is completed
-    event GridInitialized(uint x, uint y);
+    event GridInitialized(uint width, uint height);
     event CellActivated(uint xCoord, uint yCoord);
     event NextIterationCompleted(bool[][] newGrid);
 
     // Constructor to initialize the grid with the specified size
-    constructor(uint _x, uint _y) {
-        require(_x > 0 && _y > 0, "X and Y sizes must be greater than 0");
-        x = _x;
-        y = _y;
-        grid = new bool[][](x);
-        for (uint i = 0; i < x; i++) {
-            grid[i] = new bool[](y);
+    constructor(uint _width, uint _height) {
+        require(_width > 0 && _height > 0, "Width and height sizes must be greater than 0");
+        width = _width;
+        height = _height;
+        grid = new bool[][](width);
+        for (uint i = 0; i < width; i++) {
+            grid[i] = new bool[](height);
         }
-        emit GridInitialized(x, y);
+        emit GridInitialized(width, height);
     }
 
     // Function to activate a single cell in the grid
