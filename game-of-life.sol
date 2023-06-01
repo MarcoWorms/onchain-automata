@@ -2,8 +2,8 @@ pragma solidity ^0.8.0;
 
 contract GameOfLife {
     // State variables to store the grid size and the grid itself
-    uint public x;
-    uint public y;
+    uint public width;
+    uint public height;
     bool[][] public grid;
     
     // Events to be emitted when the grid is initialized, a cell is activated, and an iteration is completed
@@ -25,7 +25,7 @@ contract GameOfLife {
 
     // Function to activate a single cell in the grid
     function activateCell(uint xCoord, uint yCoord) public {
-        require(xCoord < x && yCoord < y, "Invalid coordinates");
+        require(xCoord < width && yCoord < height, "Invalid coordinates");
         grid[xCoord][yCoord] = true;
         emit CellActivated(xCoord, yCoord);
     }
@@ -42,14 +42,14 @@ contract GameOfLife {
     // Function to compute the next iteration of the grid based on Conway's Game of Life rules
     function nextIteration() public {
         // Create a new grid to store the updated state
-        bool[][] memory newGrid = new bool[][](x);
-        for (uint i = 0; i < x; i++) {
-            newGrid[i] = new bool[](y);
+        bool[][] memory newGrid = new bool[][](width);
+        for (uint i = 0; i < width; i++) {
+            newGrid[i] = new bool[](height);
         }
 
         // Iterate through each cell in the grid
-        for (uint xCoord = 0; xCoord < x; xCoord++) {
-            for (uint yCoord = 0; yCoord < y; yCoord++) {
+        for (uint xCoord = 0; xCoord < width; xCoord++) {
+            for (uint yCoord = 0; yCoord < height; yCoord++) {
                 // Count the number of live neighbors for the current cell
                 uint8 neighbors = countNeighbors(xCoord, yCoord);
 
@@ -81,7 +81,7 @@ contract GameOfLife {
                 uint newY = yCoord + uint(j);
 
                 // Check if the neighboring cell is within the grid boundaries and is alive
-                if (newX < x && newY < y && grid[newX][newY]) {
+                if (newX < width && newY < height && grid[newX][newY]) {
                     count++;
                 }
             }
