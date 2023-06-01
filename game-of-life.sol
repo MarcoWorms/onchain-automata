@@ -4,8 +4,9 @@ contract GameOfLife {
     uint public gridSize;
     bool[][] public grid;
     
+    event GridInitialized(uint gridSize);
     event DotInserted(uint x, uint y);
-    event NextIterationCompleted();
+    event NextIterationCompleted(bool[][] newGrid);
 
     constructor(uint _gridSize) {
         require(_gridSize > 0, "Grid size must be greater than 0");
@@ -14,6 +15,7 @@ contract GameOfLife {
         for (uint i = 0; i < gridSize; i++) {
             grid[i] = new bool[](gridSize);
         }
+        emit GridInitialized(gridSize);
     }
 
     function insertDot(uint x, uint y) public {
@@ -49,7 +51,7 @@ contract GameOfLife {
         }
 
         grid = newGrid;
-        emit NextIterationCompleted();
+        emit NextIterationCompleted(grid);
     }
 
     function countNeighbors(uint x, uint y) private view returns (uint8) {
