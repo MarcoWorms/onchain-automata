@@ -1,0 +1,19 @@
+/* .grid {
+  display: grid;
+  grid-template-columns: repeat(64, 1fr);
+  grid-gap: 2px;
+}
+
+.cell {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+
+.cell-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+} */
