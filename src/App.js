@@ -146,7 +146,7 @@ function App() {
         color: 'grey', 
         margin: 20,
         fontStyle: 'italic',
-      }}>Paint with left mouse button. Erase paint with right mouse button. <a href="https://github.com/MarcoWorms/onchain-automata">Source Code</a>.</p>
+      }}><a href="https://github.com/MarcoWorms/onchain-automata">Source Code</a>. Deployed at <a href="https://chainlist.org/chain/250">Fantom Opera</a>. Paint with left mouse button and erase with right mouse button.</p>
       <div style={{
         margin: 20,
         display: 'flex',
