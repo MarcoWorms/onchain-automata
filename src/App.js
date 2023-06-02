@@ -33,15 +33,24 @@ function App() {
 
 
   useEffect(() => {
-    if (window.ethereum) {
-      const instance = new Web3(window.ethereum);
-      setWeb3(instance);
-
-      const gameOfLifeContract = new instance.eth.Contract(ABI, CONTRACT_ADDRESS);
-      setContract(gameOfLifeContract);
-    } else {
-      alert('Please install MetaMask to use this dApp.');
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const instance = new Web3(window.ethereum);
+          setWeb3(instance);
+  
+          const gameOfLifeContract = new instance.eth.Contract(ABI, CONTRACT_ADDRESS);
+          setContract(gameOfLifeContract);
+        } catch (error) {
+          alert('Please connect your MetaMask wallet to use this dApp.');
+        }
+      } else {
+        alert('Please install MetaMask to use this dApp.');
+      }
     }
+  
+    connectWallet();
   }, []);
 
   useEffect(() => {
