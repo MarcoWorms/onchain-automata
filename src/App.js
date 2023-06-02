@@ -143,9 +143,10 @@ function App() {
         marginBottom: 10,
       }}>Onchan Conway's Game of Life</h1>
       <p style={{
-        // color: 'white', 
+        color: 'grey', 
         margin: 20,
-      }}>Paint with left mouse button. Erase paint with right mouse button.</p>
+        fontStyle: 'italic',
+      }}>Paint with left mouse button. Erase paint with right mouse button. <a href="https://github.com/MarcoWorms/onchain-automata">Source Code</a>.</p>
       <div style={{
         margin: 20,
         display: 'flex',
