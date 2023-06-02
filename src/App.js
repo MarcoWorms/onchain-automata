@@ -146,7 +146,7 @@ function App() {
         color: 'grey', 
         margin: 20,
         fontStyle: 'italic',
-      }}><a href="https://github.com/MarcoWorms/onchain-automata">Source Code</a>. Deployed at <a href="https://chainlist.org/chain/250">Fantom Opera</a>. Paint with left mouse button and erase with right mouse button.</p>
+      }}><a href="https://github.com/MarcoWorms/onchain-automata">Source Code</a>. Deployed at <a href="https://chainlist.org/chain/250">Fantom</a>. Paint with left mouse button and erase with right mouse button.</p>
       <div style={{
         margin: 20,
         display: 'flex',
