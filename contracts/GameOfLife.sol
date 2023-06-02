@@ -11,6 +11,8 @@ contract GameOfLife {
 
     constructor(uint256 _width, uint256 _height) {
         require(_width > 0 && _height > 0, "Width and height sizes must be greater than 0");
+        require(_width <= type(uint256).max && _height <= type(uint256).max, "Width and height too big");
+        require(_width >= type(uint256).min && _height >= type(uint256).min, "Width and height too small");
         width = _width;
         height = _height;
         grid = new bool[][](width);
