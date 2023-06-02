@@ -14,8 +14,11 @@ contract GameOfLife {
         width = _width;
         height = _height;
         grid = new bool[][](width);
-        for (uint256 i = 0; i < width; i++) {
+        for (uint256 i = 0; i < width;) {
             grid[i] = new bool[](height);
+            unchecked {
+                ++i;
+            }
         }
         emit GridInitialized(width, height);
     }
