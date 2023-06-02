@@ -4,6 +4,23 @@ import Web3 from 'web3';
 const CONTRACT_ADDRESS = '0xAE0983F8f28C164288d94741c93486aAC954273c';
 const ABI = [{"inputs":[{"internalType":"uint256","name":"_width","type":"uint256"},{"internalType":"uint256","name":"_height","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"xCoord","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"yCoord","type":"uint256"}],"name":"CellActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"width","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"height","type":"uint256"}],"name":"GridInitialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool[][]","name":"newGrid","type":"bool[][]"}],"name":"NextIterationCompleted","type":"event"},{"inputs":[{"internalType":"uint256","name":"xCoord","type":"uint256"},{"internalType":"uint256","name":"yCoord","type":"uint256"}],"name":"activateCell","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"xCoords","type":"uint256[]"},{"internalType":"uint256[]","name":"yCoords","type":"uint256[]"}],"name":"activateCells","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getGrid","outputs":[{"internalType":"bool[][]","name":"","type":"bool[][]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"grid","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"height","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextIteration","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"width","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 
+function EventsHistory({ events }) {
+  return (
+    <div>
+      <h2>Events History</h2>
+      <ul>
+        {events.map((event, index) => (
+          <li key={index}>
+            {event.event === 'CellActivated'
+              ? `Cell Activated at (${event.returnValues.xCoord},${event.returnValues.yCoord})`
+              : 'Next Iteration Completed'}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function App() {
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
@@ -12,6 +29,8 @@ function App() {
   const [selectedCells, setSelectedCells] = useState([]);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
+  const [eventsHistory, setEventsHistory] = useState([]);
+
 
   useEffect(() => {
     if (window.ethereum) {
@@ -96,6 +115,7 @@ function App() {
     setPaintGrid(gridData);
     setSelectedCells([]);
   };
+  
 
   return (
     <div style={{
@@ -116,7 +136,7 @@ function App() {
       <p style={{
         // color: 'white', 
         margin: 20,
-      }}>Paint with left mouse button. Erase paint with right mouse button/</p>
+      }}>Paint with left mouse button. Erase paint with right mouse button.</p>
       <div style={{
         margin: 20,
         display: 'flex',
@@ -181,6 +201,7 @@ function App() {
           </div>
         ))}
       </div>
+      
     </div>
   );
 }
